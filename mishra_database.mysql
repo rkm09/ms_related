@@ -1,0 +1,350 @@
+-- MySQL dump 10.13  Distrib 5.6.29, for debian-linux-gnu (x86_64)
+--
+-- Host: localhost    Database: sjp642_mishra_database
+-- ------------------------------------------------------
+-- Server version	5.6.29-1~dotdeb+7.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `CUSTOMER`
+--
+
+DROP TABLE IF EXISTS `CUSTOMER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CUSTOMER` (
+  `id` int(11) NOT NULL,
+  `fname` varchar(40) DEFAULT NULL,
+  `lname` varchar(40) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  `address` varchar(40) DEFAULT NULL,
+  `telno` int(11) DEFAULT NULL,
+  `gender` char(4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CUSTOMER`
+--
+
+LOCK TABLES `CUSTOMER` WRITE;
+/*!40000 ALTER TABLE `CUSTOMER` DISABLE KEYS */;
+INSERT INTO `CUSTOMER` VALUES (12,'robert','brown','1970-04-04','900,Nile Road,M74QN',233222,'M'),(13,'navathe','fahid','1977-02-03','901,Jane Road,M64NN',333282,'M'),(14,'conolly','hudson','1960-02-01','944,Lincoln Road,M54QN',942222,'F'),(15,'bay','pendleton','1979-01-01','945,Jug Road,M64QN',944422,'F'),(16,'tim','gauge','1985-01-01','545,Gerry Road,M64AN',549222,'M');
+/*!40000 ALTER TABLE `CUSTOMER` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `DEPARTMENT`
+--
+
+DROP TABLE IF EXISTS `DEPARTMENT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `DEPARTMENT` (
+  `dnumber` int(11) NOT NULL,
+  `dname` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`dnumber`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DEPARTMENT`
+--
+
+LOCK TABLES `DEPARTMENT` WRITE;
+/*!40000 ALTER TABLE `DEPARTMENT` DISABLE KEYS */;
+INSERT INTO `DEPARTMENT` VALUES (1,'Research'),(2,'Sales'),(3,'Software');
+/*!40000 ALTER TABLE `DEPARTMENT` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `EMPLOYEE`
+--
+
+DROP TABLE IF EXISTS `EMPLOYEE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `EMPLOYEE` (
+  `id` int(11) NOT NULL,
+  `fname` varchar(40) DEFAULT NULL,
+  `lname` varchar(40) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  `gender` char(4) DEFAULT NULL,
+  `address` varchar(40) DEFAULT NULL,
+  `telno` int(11) DEFAULT NULL,
+  `mgr_id` int(11) DEFAULT NULL,
+  `salary` decimal(10,2) DEFAULT NULL,
+  `dno` int(11) NOT NULL,
+  `role` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EMPLOYEE`
+--
+
+LOCK TABLES `EMPLOYEE` WRITE;
+/*!40000 ALTER TABLE `EMPLOYEE` DISABLE KEYS */;
+INSERT INTO `EMPLOYEE` VALUES (1,'john','taylor','1970-01-01','M','845,Cross Road,M54QN',222222,3,1000.00,1,'Analyst'),(2,'robin','hood','1974-01-01','M','844,Criss Road,M54NN',322222,3,1000.00,3,'Programmer'),(3,'mike','mint','1960-02-01','M','944,Lincoln Road,M54QN',242222,5,5000.00,1,'Scientist'),(4,'bill','taylor','1970-01-01','M','845,East Road,M64QN',224222,3,1000.00,2,'Clerk'),(5,'tom','timber','1975-01-01','M','845,West Road,M64AN',542222,NULL,10000.00,3,'DBA');
+/*!40000 ALTER TABLE `EMPLOYEE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ENVIRONMENT_3D`
+--
+
+DROP TABLE IF EXISTS `ENVIRONMENT_3D`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ENVIRONMENT_3D` (
+  `env_name` varchar(40) NOT NULL,
+  `description` varchar(60) DEFAULT NULL,
+  PRIMARY KEY (`env_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ENVIRONMENT_3D`
+--
+
+LOCK TABLES `ENVIRONMENT_3D` WRITE;
+/*!40000 ALTER TABLE `ENVIRONMENT_3D` DISABLE KEYS */;
+INSERT INTO `ENVIRONMENT_3D` VALUES ('Beach','beach setting'),('Board','office room'),('Mars','typical planet settings'),('Space','hovering in space'),('Therapy','therapy room');
+/*!40000 ALTER TABLE `ENVIRONMENT_3D` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ENV_SESSION`
+--
+
+DROP TABLE IF EXISTS `ENV_SESSION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ENV_SESSION` (
+  `session_id` int(11) NOT NULL DEFAULT '0',
+  `start_time` datetime DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `env` varchar(40) DEFAULT NULL,
+  `duration_in_minutes` int(11) DEFAULT NULL,
+  PRIMARY KEY (`session_id`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ENV_SESSION`
+--
+
+LOCK TABLES `ENV_SESSION` WRITE;
+/*!40000 ALTER TABLE `ENV_SESSION` DISABLE KEYS */;
+INSERT INTO `ENV_SESSION` VALUES (2,'2016-04-03 18:20:51','2016-04-03 19:00:51',12,'Space',40),(2,'2016-04-03 18:20:59','2016-04-03 19:00:51',13,'Space',39),(4,'2016-05-05 19:44:25','2016-05-05 19:54:16',12,'Mars',9),(4,'2016-05-05 19:45:10','2016-05-05 20:00:17',13,'Mars',15),(4,'2016-05-05 19:52:48','2016-05-05 20:00:17',14,'Mars',7);
+/*!40000 ALTER TABLE `ENV_SESSION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `INVOICE`
+--
+
+DROP TABLE IF EXISTS `INVOICE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `INVOICE` (
+  `invoice_no` int(11) NOT NULL AUTO_INCREMENT,
+  `cust_id` int(11) NOT NULL,
+  `bill_month` char(30) NOT NULL DEFAULT '',
+  `bill_amount` decimal(10,2) DEFAULT NULL,
+  `call_duration` int(11) DEFAULT NULL,
+  `bill_date` date DEFAULT NULL,
+  PRIMARY KEY (`invoice_no`,`cust_id`,`bill_month`),
+  UNIQUE KEY `cust_id` (`cust_id`,`bill_month`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `INVOICE`
+--
+
+LOCK TABLES `INVOICE` WRITE;
+/*!40000 ALTER TABLE `INVOICE` DISABLE KEYS */;
+INSERT INTO `INVOICE` VALUES (2,12,'April',160.00,40,'2016-04-05'),(3,13,'April',156.00,39,'2016-04-05'),(7,12,'May',18.00,9,'2016-05-05'),(8,13,'May',30.00,15,'2016-05-05'),(9,14,'May',14.00,7,'2016-05-05');
+/*!40000 ALTER TABLE `INVOICE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `LOGIN`
+--
+
+DROP TABLE IF EXISTS `LOGIN`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `LOGIN` (
+  `email` varchar(40) NOT NULL,
+  `password` varchar(32) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `LOGIN`
+--
+
+LOCK TABLES `LOGIN` WRITE;
+/*!40000 ALTER TABLE `LOGIN` DISABLE KEYS */;
+INSERT INTO `LOGIN` VALUES ('bay_pendleton@gmail.com','f1290186a5d0b1ceab27f4e77c0c5d68',15),('bill_taylor@gmail.com','8277e0910d750195b448797616e091ad',4),('conolly_hudson@gmail.com','9dd4e461268c8034f5c8564e155c67a6',14),('john_taylor@gmail.com','0cc175b9c0f1b6a831c399e269772661',1),('mike_mint@gmail.com','4a8a08f09d37b73795649038408b5f33',3),('navathe_fahid@gmail.com','415290769594460e2e485922904f345d',13),('robert_brown@gmail.com','fbade9e36a3f36d3d676c1b808451dd7',12),('robin_hood@gmail.com','92eb5ffee6ae2fec3ad71c777531578f',2),('tim_gauge@gmail.com','9e3669d19b675bd57058fd4664205d2a',16),('tom_timber@gmail.com','e1671797c52e15f763380b45e841ec32',5);
+/*!40000 ALTER TABLE `LOGIN` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping events for database 'sjp642_mishra_database'
+--
+/*!50106 SET @save_time_zone= @@TIME_ZONE */ ;
+/*!50106 DROP EVENT IF EXISTS `Monthly_Bill_Event` */;
+DELIMITER ;;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;;
+/*!50003 SET character_set_client  = latin1 */ ;;
+/*!50003 SET character_set_results = latin1 */ ;;
+/*!50003 SET collation_connection  = latin1_swedish_ci */ ;;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;;
+/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
+/*!50003 SET time_zone             = 'SYSTEM' */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`sjp642`@`localhost`*/ /*!50106 EVENT `Monthly_Bill_Event` ON SCHEDULE EVERY 1 MONTH STARTS '2016-05-05 20:07:00' ON COMPLETION NOT PRESERVE ENABLE DO BEGIN DECLARE done INT DEFAULT 0 ; DECLARE curr_user INT DEFAULT 0 ; DECLARE user_cursor CURSOR FOR SELECT DISTINCT user_id FROM ENV_SESSION WHERE MONTH(start_time) = MONTH(now());  DECLARE CONTINUE handler for not found set done = 1; OPEN user_cursor; REPEAT  FETCH user_cursor INTO curr_user ; INSERT INTO INVOICE(cust_id,bill_month,bill_amount,call_duration,bill_date) VALUES(curr_user , MONTHNAME(now()) ,Monthly_bill(curr_user),Monthly_call_minutes(curr_user,MONTH(now())) ,now()); UNTIL DONE END REPEAT; CLOSE user_cursor; END */ ;;
+/*!50003 SET time_zone             = @saved_time_zone */ ;;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;;
+/*!50003 SET character_set_results = @saved_cs_results */ ;;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;;
+DELIMITER ;
+/*!50106 SET TIME_ZONE= @save_time_zone */ ;
+
+--
+-- Dumping routines for database 'sjp642_mishra_database'
+--
+/*!50003 DROP FUNCTION IF EXISTS `Monthly_bill` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = latin1 */ ;
+/*!50003 SET character_set_results = latin1 */ ;
+/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`sjp642`@`localhost` FUNCTION `Monthly_bill`(id int) RETURNS decimal(10,2)
+BEGIN DECLARE bill decimal(10,2) DEFAULT 0.00; DECLARE duration INT DEFAULT 0 ; SELECT sum(duration_in_minutes) INTO duration FROM ENV_SESSION WHERE user_id = id AND MONTH(start_time)=MONTH(now()); IF duration < 30 THEN SET bill = duration * 2 ; ELSE IF  duration > 30 THEN SET bill = duration * 4 ; END IF;   END IF ; RETURN bill; END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP FUNCTION IF EXISTS `Monthly_call_minutes` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = latin1 */ ;
+/*!50003 SET character_set_results = latin1 */ ;
+/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`sjp642`@`localhost` FUNCTION `Monthly_call_minutes`(id int,month int) RETURNS int(11)
+BEGIN DECLARE call_duration INT DEFAULT 0 ; SELECT sum(duration_in_minutes) INTO call_duration FROM ENV_SESSION WHERE MONTH(start_time) = month AND user_id = id; RETURN call_duration; END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `ADD_USER_TO_SESSION` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = latin1 */ ;
+/*!50003 SET character_set_results = latin1 */ ;
+/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`sjp642`@`localhost` PROCEDURE `ADD_USER_TO_SESSION`(IN param1 int,IN param2 int)
+BEGIN DECLARE param3 varchar(40) ; DECLARE param4 int DEFAULT 0; select distinct env into param3 from ENV_SESSION where session_id = param2 ; INSERT INTO ENV_SESSION(session_id,start_time,end_time,user_id,env) values(param2,now(),param4,param1,param3); END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `DROP_USERS_FROM_SESSION` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = latin1 */ ;
+/*!50003 SET character_set_results = latin1 */ ;
+/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`sjp642`@`localhost` PROCEDURE `DROP_USERS_FROM_SESSION`(IN param1 int,IN param2 int)
+BEGIN UPDATE ENV_SESSION SET end_time = now() , duration_in_minutes = TIMESTAMPDIFF(MINUTE,start_time,end_time) WHERE session_id = param2 AND user_id = param1 ; END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `END_SESSION` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = latin1 */ ;
+/*!50003 SET character_set_results = latin1 */ ;
+/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`sjp642`@`localhost` PROCEDURE `END_SESSION`(IN param1 int)
+BEGIN UPDATE ENV_SESSION SET end_time = now() ,duration_in_minutes = TIMESTAMPDIFF(MINUTE,start_time,end_time) WHERE session_id = param1 AND (end_time IS NULL OR end_time = 0) ; END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `START_SESSION` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = latin1 */ ;
+/*!50003 SET character_set_results = latin1 */ ;
+/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`sjp642`@`localhost` PROCEDURE `START_SESSION`(IN param1 int,IN param2 varchar(40),IN param3 int)
+BEGIN INSERT INTO ENV_SESSION(session_id,start_time,user_id,env) values(param3,now(),param1,param2); END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2016-05-05 20:55:19

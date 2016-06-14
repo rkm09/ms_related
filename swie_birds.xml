@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rdf[
+  <!ENTITY ex 'http://example.org/'>
+  <!ENTITY wikipedia 'https://en.wikipedia.org/wiki/'>
+  <!ENTITY rspb 'http://www.rspb.org.uk/discoverandenjoynature/discoverandlearn/birdguide/name/'>
+]>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/22-rdfs-syntax-ns#"
+         xmlns:ex="http://example.org/">
+<rdfs:Class rdf:about="&ex;Animalia" >
+<rdfs:label>kingdom</rdfs:label>
+<rdfs:comment>Superset of bird species</rdfs:comment>
+</rdfs:Class>
+<rdfs:Class rdf:about="&ex;Chordata" >
+<rdfs:subClassOf rdf:resource="&ex;Animalia" />
+<rdfs:label>Phylum</rdfs:label>
+</rdfs:Class>
+<rdfs:Class rdf:about="&ex;Aves" >
+<rdfs:subClassOf rdf:resource="&ex;Chordata" />
+<rdfs:label>Class</rdfs:label>
+<rdfs:comment>
+Birds (Aves) are a group of endothermic vertebrates,
+characterised by feathers, toothless beaked jaws, 
+the laying of hard-shelled eggs, a high metabolic rate, a four-chambered heart
+, and a lightweight but strong skeleton.
+</rdfs:comment>
+</rdfs:Class>
+<rdfs:Class rdf:about="&ex;NaturalHabitat" >
+<rdfs:subClassOf rdf:resource="&ex;Habitat" />
+</rdfs:Class>
+
+<!-- ##### -->
+<!-- 1. Pheasants(Golden Pheasant with Family and Order specification) -->
+<!-- ##### -->
+
+<rdfs:Class rdf:about="&ex;Galliformes" >
+<rdfs:subClassOf rdf:resource="&ex;Aves" />
+<rdfs:label>Order</rdfs:label>
+<rdfs:comment>
+The Galliformes are an order of heavy-bodied ground-feeding birds.
+</rdfs:comment>
+</rdfs:Class>
+<rdfs:Class rdf:about="&ex;Phasianidae" >
+<rdfs:subClassOf rdf:resource="&ex;Galliformes" />
+<rdfs:label>Family</rdfs:label>
+</rdfs:Class>
+<rdfs:Class rdf:about="&ex;C.pictus" >
+<rdfs:subClassOf rdf:resource="&ex;Phasianidae" />
+<rdfs:label>Species</rdfs:label>
+<rdfs:comment>
+Includes the pheasant family of birds.
+</rdfs:comment>
+</rdfs:Class>
+<!-- Specification -->
+<rdfs:Class rdf:about="&ex;GoldenPheasant" >
+<rdfs:subClassOf rdf:resource="&ex;Phasianidae" />
+<!--rdfs:domain,rdfs:range-->
+<rdfs:domain rdf:resource="&ex;Birds"/>
+<rdfs:range rdf:resource="&ex;Pheasants"/>
+<!-- // -->
+<rdfs:type rdf:resource="&ex;C.pictus"/>
+<rdfs:label xml:lang="en">Golden Pheasant</rdfs:label>
+<rdfs:comment>
+The Golden Pheasant belongs to the order of Galliformes and is a type of 
+flight less ,heavy bodied gamebird. It is native to forests in mountainous areas of western China,
+ but feral populations have been established in the United Kingdom and elsewhere. 
+</rdfs:comment>
+<rdfs:seeAlso rdf:resource="&wikipedia;Golden_pheasant"/>
+<rdfs:definedBy>&rspb;g/goldenpheasant/index.aspx</rdfs:definedBy>
+<ex:size>medium</ex:size>
+  <ex:bodyColour>Red,Yellow</ex:bodyColour>
+  <ex:wingsColour rdf:resource="MultiColoured"/>
+  <ex:beakType>short</ex:beakType>
+  <ex:eyeColour>black,White</ex:eyeColour>
+  <ex:pitch>high</ex:pitch>
+  <ex:loudness>120.01</ex:loudness>
+  <ex:duration rdf:datatype="http://www.w3.org/2001/XMLSchema#int">8</ex:duration>
+  <ex:regularity rdf:resource="&ex;shortbursts"/>
+  <ex:wingspan rdf:datatype="http://www.w3.org/2001/XMLSchema#int">100</ex:wingspan>
+  <ex:numberOfEggsLaid rdf:datatype="http://www.w3.org/2001/XMLSchema#int">20</ex:numberOfEggsLaid>
+  <ex:typicalFood>
+     <ex:bag>
+        <ex:li rdf:resource="&ex;Grains"/>
+        <ex:li rdf:resource="&ex;Leaves"/>
+     </ex:bag>
+  </ex:typicalFood>
+  <ex:naturalHabitat rdf:resource="&ex;CorniferousForests,Western China"/>
+  <ex:Habitat>
+     <ex:bag>
+        <ex:li rdf:resource="&ex;UK"/>
+        <ex:li rdf:resource="&ex;USA"/>
+        <ex:li rdf:resource="&ex;Canada"/>
+        <ex:li rdf:resource="&ex;Mexico"/>
+     </ex:bag>
+  </ex:Habitat>
+  <ex:nocturnal>false</ex:nocturnal>
+  <ex:daytime>true</ex:daytime>
+  <ex:migrationPattern rdf:resource="&ex;IntroducedResident"/>
+  <ex:flight>false</ex:flight>
+  <ex:conservationStatus rdf:resource="&ex;LeastConcern"/>
+  <ex:binomialName rdf:resource="&ex;Chrysolophus pictus"/>
+</rdfs:Class>
+
+<!-- ##### -->
+<!-- 2. Ducks(Ferruginous Duck with Family and Order specification) -->
+<!-- ##### -->
+
+<rdfs:Class rdf:about="&ex;Anseriformes " >
+<rdfs:subClassOf rdf:resource="&ex;Aves" />
+<rdfs:label>Order</rdfs:label>
+<rdfs:comment>
+Anseriformes is an order of birds that comprises about 180 living species which 
+includes ducks , geese and swans . 
+</rdfs:comment>
+</rdfs:Class>
+<rdfs:Class rdf:about="&ex;Anatidae" >
+<rdfs:subClassOf rdf:resource="&ex;Anseriformes" />
+<rdfs:label>Family</rdfs:label>
+</rdfs:Class>
+<rdfs:Class rdf:about="&ex;A.nyroca" >
+<rdfs:subClassOf rdf:resource="&ex;Anatidae" />
+<rdfs:label>Species</rdfs:label>
+<rdfs:comment>
+A. nyroca is a species of diving ducks.
+</rdfs:comment>
+</rdfs:Class>
+<!-- Specification -->
+<rdfs:Class rdf:about="&ex;ferruginous duck" >
+<rdfs:subClassOf rdf:resource="&ex;Anatidae" />
+<rdfs:type rdf:resource="&ex;A.nyroca"/>
+<!--rdfs:domain,rdfs:range-->
+<rdfs:domain rdf:resource="&ex;Birds"/>
+<rdfs:range rdf:resource="&ex;Ducks"/>
+<!-- // -->
+<rdfs:label xml:lang="en">Ferruginous Duck</rdfs:label>
+<rdfs:comment>
+The ferruginous duck, also ferruginous pochard (Aythya nyroca) is a medium-sized diving duck from Eurasia. 
+The species is known colloquially by birders as "fudge duck".
+</rdfs:comment>
+<!--rdfs:domain,rdfs:range-->
+<rdfs:seeAlso rdf:resource="&wikipedia;Ferruginous_duck"/>
+<ex:size>medium</ex:size>
+  <ex:bodyColour>dark brown</ex:bodyColour>
+  <ex:wingsColour rdf:resource="SingleColoured"/>
+  <ex:beakType>long</ex:beakType>
+  <ex:eyeColour>Yellow</ex:eyeColour>
+  <ex:pitch>medium</ex:pitch>
+  <ex:loudness>100.01</ex:loudness>
+  <ex:duration rdf:datatype="http://www.w3.org/2001/XMLSchema#int">13</ex:duration>
+  <ex:regularity rdf:resource="&ex;shortbursts"/>
+  <ex:wingspan rdf:datatype="http://www.w3.org/2001/XMLSchema#int">200</ex:wingspan>
+  <ex:numberOfEggsLaid rdf:datatype="http://www.w3.org/2001/XMLSchema#int">8</ex:numberOfEggsLaid>
+  <ex:typicalFood>
+     <ex:bag>
+        <ex:li rdf:resource="&ex;Aquatic Plants"/>
+        <ex:li rdf:resource="&ex;Aquatic Insects"/>
+        <ex:li rdf:resource="&ex;Small Fish"/>
+     </ex:bag>
+  </ex:typicalFood>
+  <ex:naturalHabitat rdf:resource="&ex;Marshes and lakes in Eurasia"/>
+  <ex:Habitat>
+     <ex:bag>
+        <ex:li rdf:resource="&ex;Europe"/>
+        <ex:li rdf:resource="&ex;Asia"/>
+     </ex:bag>
+  </ex:Habitat>
+  <ex:nocturnal>false</ex:nocturnal>
+  <ex:daytime>true</ex:daytime>
+  <ex:migrationPattern rdf:resource="&ex;IntroducedResident"/>
+  <ex:flight>true</ex:flight>
+  <ex:conservationStatus rdf:resource="&ex;Near Threatened"/>
+  <ex:binomialName rdf:resource="&ex;Aythya nyroca"/>
+</rdfs:Class>
+
+<!-- ##### -->
+<!-- 3. Swans(Tundra Swan with Family and Order specification) -->
+<!-- ##### -->
+
+<rdfs:Class rdf:about="&ex;Anseriformes " >
+<rdfs:subClassOf rdf:resource="&ex;Aves" />
+<rdfs:label>Order</rdfs:label>
+<rdfs:comment>
+Anseriformes is an order of birds that comprises about 180 living species which 
+includes ducks , geese and swans . 
+</rdfs:comment>
+</rdfs:Class>
+<rdfs:Class rdf:about="&ex;Anatidae" >
+<rdfs:subClassOf rdf:resource="&ex;Anseriformes" />
+<rdfs:label>Family</rdfs:label>
+</rdfs:Class>
+<rdfs:Class rdf:about="&ex;C.columbianus" >
+<rdfs:subClassOf rdf:resource="&ex;Anatidae" />
+<rdfs:label>Species</rdfs:label>
+<rdfs:comment>
+C.columbianus is a species of diving ducks.
+</rdfs:comment>
+</rdfs:Class>
+<!-- Specification -->
+<rdfs:Class rdf:about="&ex;Tundra Swan" >
+<rdfs:subClassOf rdf:resource="&ex;Anatidae" />
+<rdfs:type rdf:resource="&ex;C.columbianus"/>
+<!--rdfs:domain,rdfs:range-->
+<rdfs:domain rdf:resource="&ex;Birds"/>
+<rdfs:range rdf:resource="&ex;Swans"/>
+<!-- // -->
+<rdfs:label xml:lang="en">Tundra Swan</rdfs:label>
+<rdfs:comment>
+The tundra swan (Cygnus columbianus) is a small Holarctic swan. The two taxa within it are usually regarded as conspecific, but are also sometimes[2][3] split into two species: Bewick's swan (Cygnus bewickii) of the Palaearctic and 
+the whistling swan (C. columbianus) proper of the Nearctic
+</rdfs:comment>
+<rdfs:seeAlso rdf:resource="&wikipedia;Tundra_Swan"/>
+<ex:size>large</ex:size>
+  <ex:bodyColour>white</ex:bodyColour>
+  <ex:wingsColour rdf:resource="SingleColoured"/>
+  <ex:beakType>long</ex:beakType>
+  <ex:eyeColour>Black,White</ex:eyeColour>
+  <ex:pitch>low</ex:pitch>
+  <ex:loudness>100.01</ex:loudness>
+  <ex:duration rdf:datatype="http://www.w3.org/2001/XMLSchema#int">14</ex:duration>
+  <ex:regularity rdf:resource="&ex;shortbursts"/>
+  <ex:wingspan rdf:datatype="http://www.w3.org/2001/XMLSchema#int">231</ex:wingspan>
+  <ex:numberOfEggsLaid rdf:datatype="http://www.w3.org/2001/XMLSchema#int">5</ex:numberOfEggsLaid>
+  <ex:typicalFood>
+     <ex:bag>
+        <ex:li rdf:resource="&ex;Aquatic Vegetation"/>
+        <ex:li rdf:resource="&ex;Grass On Dry Lands"/>
+        <ex:li rdf:resource="&ex;Grains and Crops"/>
+     </ex:bag>
+  </ex:typicalFood>
+  <ex:naturalHabitat rdf:resource="&ex;Arctic and SubArctic Tundra"/>
+  <ex:Habitat>
+     <ex:bag>
+        <ex:li rdf:resource="&ex;Siberia"/>
+        <ex:li rdf:resource="&ex;Kola Peninsula"/>
+        <ex:li rdf:resource="&ex;Baltic Sea"/>
+        <ex:li rdf:resource="&ex;White Sea"/>
+     </ex:bag>
+  </ex:Habitat>
+  <ex:nocturnal>false</ex:nocturnal>
+  <ex:daytime>true</ex:daytime>
+  <ex:migrationPattern rdf:resource="&ex;Winter Migrant"/>
+  <ex:flight>true</ex:flight>
+  <ex:conservationStatus rdf:resource="&ex;Least Concern"/>
+  <ex:binomialName rdf:resource="&ex;Cygnus columbianus"/>
+</rdfs:Class>
+
+<!-- ##### -->
+<!-- 4. Owls(Spotted Owl with Family and Order specification) -->
+<!-- ##### -->
+
+<rdfs:Class rdf:about="&ex;Strigiformes " >
+<rdfs:subClassOf rdf:resource="&ex;Aves" />
+<rdfs:label>Order</rdfs:label>
+<rdfs:comment>
+Owls are birds from the order Strigiformes, which includes about two hundred species of mostly solitary and nocturnal birds of prey typified by an upright stance, a large, broad head, binocular vision, binaural hearing, 
+sharp talons, and feathers adapted for silent flight.
+</rdfs:comment>
+</rdfs:Class>
+<rdfs:Class rdf:about="&ex;Strigidae" >
+<rdfs:subClassOf rdf:resource="&ex;Strigiformes" />
+<rdfs:label>Family</rdfs:label>
+</rdfs:Class>
+<rdfs:Class rdf:about="&ex;S.occidentalis" >
+<rdfs:subClassOf rdf:resource="&ex;Strigidae" />
+<rdfs:label>Species</rdfs:label>
+<rdfs:comment>
+S. occidentalis is a species of spotted owls.
+</rdfs:comment>
+</rdfs:Class>
+<!-- Specification -->
+<rdfs:Class rdf:about="&ex;Spotted Owl" >
+<rdfs:subClassOf rdf:resource="&ex;Strigidae" />
+<!--rdfs:domain,rdfs:range-->
+<rdfs:domain rdf:resource="&ex;Birds"/>
+<rdfs:range rdf:resource="&ex;Owls"/>
+<!-- // -->
+<rdfs:type rdf:resource="&ex;S.occidentalis"/>
+<rdfs:label xml:lang="en">Spotted Owl</rdfs:label>
+<rdfs:comment>
+The spotted owl (Strix occidentalis) is a species of true owl. It is a resident species of old-growth forests in western North America, where it nests in tree holes,
+ old bird of prey nests, or rock crevices.
+</rdfs:comment>
+<rdfs:seeAlso rdf:resource="&wikipedia;Spotted_Owl"/>
+<ex:size>medium</ex:size>
+  <ex:bodyColour>dull brown</ex:bodyColour>
+  <ex:wingsColour rdf:resource="SingleColoured"/>
+  <ex:beakType>short</ex:beakType>
+  <ex:eyeColour>Black</ex:eyeColour>
+  <ex:pitch>low</ex:pitch>
+  <ex:loudness>70.01</ex:loudness>
+  <ex:duration rdf:datatype="http://www.w3.org/2001/XMLSchema#int">4</ex:duration>
+  <ex:regularity rdf:resource="&ex;longbursts"/>
+  <ex:wingspan rdf:datatype="http://www.w3.org/2001/XMLSchema#int">114</ex:wingspan>
+  <ex:numberOfEggsLaid rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</ex:numberOfEggsLaid>
+  <ex:typicalFood>
+     <ex:bag>
+        <ex:li rdf:resource="&ex;Small Mammals"/>
+        <ex:li rdf:resource="&ex;Birds"/>
+     </ex:bag>
+  </ex:typicalFood>
+  <ex:naturalHabitat rdf:resource="&ex;Old-growth forests in NorthWestern America"/>
+  <ex:Habitat>
+     <ex:bag>
+        <ex:li rdf:resource="&ex;British Columbia"/>
+        <ex:li rdf:resource="&ex;Mexico"/>
+     </ex:bag>
+  </ex:Habitat>
+  <ex:nocturnal>true</ex:nocturnal>
+  <ex:daytime>false</ex:daytime>
+  <ex:migrationPattern rdf:resource="&ex;IntroducedResident"/>
+  <ex:flight>true</ex:flight>
+  <ex:conservationStatus rdf:resource="&ex;Near Threatened"/>
+  <ex:binomialName rdf:resource="&ex;Strix occidentalis"/>
+</rdfs:Class>
+
+</rdf:RDF>

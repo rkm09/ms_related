@@ -1,0 +1,340 @@
+#########################################################################################################
+
+-- ## {Define Schema/Database and set as the current , also set schedular on and safe updates off} ## --
+
+DROP schema IF EXISTS mishra_database;
+CREATE DATABASE mishra_database;
+USE mishra_database;
+
+SET GLOBAL event_scheduler = ON;
+SET SQL_SAFE_UPDATES = 0 ;
+#########################################################################################################
+
+-- ## {Define tables (employee,customer,department,environment_3d,env_session,login,invoice} ## --
+
+CREATE TABLE EMPLOYEE(id INT primary key NOT NULL, fname varchar(40),lname varchar(40),
+dob date,gender char(4),address varchar(40) , telno INT , mgr_id INT references employee(id) ,salary decimal(10,2),
+dno INT NOT NULL references department(dnumber),role varchar(30) );
+#DROP TABLE IF EXISTS EMPLOYEE;
+
+CREATE TABLE DEPARTMENT(dnumber INT primary key , dname varchar(30));
+
+CREATE TABLE CUSTOMER(id INT primary key NOT NULL, fname varchar(40),lname varchar(40),
+dob date,address varchar(40) , telno INT,gender char(4));
+#DROP TABLE IF EXISTS CUSTOMER;
+
+CREATE TABLE ENVIRONMENT_3D(env_name varchar(40) primary key , description varchar(60));
+#DROP TABLE IF EXISTS ENVIRONMENT_3D;
+
+CREATE TABLE INVOICE(invoice_no INT AUTO_INCREMENT,cust_id INT NOT NULL references CUSTOMER(id),bill_month char(30),
+bill_amount DECIMAL(10,2),call_duration INT,bill_date date,primary key(invoice_no,cust_id,bill_month),UNIQUE(cust_id,bill_month));
+#DROP TABLE IF EXISTS INVOICE;
+#select * from INVOICE;
+#DESCRIBE INVOICE;
+
+CREATE TABLE LOGIN (email varchar(40) primary key,password varchar(32) , user_id INT) ;
+
+CREATE TABLE ENV_SESSION(session_id int , start_time datetime,end_time datetime,user_id int,env varchar(40) references ENVIRONMENT_3D(env_name),duration_in_minutes INT
+,PRIMARY KEY(session_id,user_id));
+#DROP TABLE IF EXISTS ENV_SESSION;
+
+#########################################################################################################
+
+-- ## {Inserting values into tables (employee,customer,department,environment_3d,env_session,login} ## --
+
+INSERT INTO EMPLOYEE VALUES (1,'john','taylor','1970-01-01','M','845,Cross Road,M54QN',222222,3,1000,1,'Analyst');
+INSERT INTO EMPLOYEE VALUES (2,'robin','hood','1974-01-01','M','844,Criss Road,M54NN',322222,3,1000,3,'Programmer');
+INSERT INTO EMPLOYEE VALUES (3,'mike','mint','1960-02-01','M','944,Lincoln Road,M54QN',242222,5,5000,1,'Scientist');
+INSERT INTO EMPLOYEE VALUES (4,'bill','taylor','1970-01-01','M','845,East Road,M64QN',224222,3,1000,2,'Clerk');
+INSERT INTO EMPLOYEE VALUES (5,'tom','timber','1975-01-01','M','845,West Road,M64AN',542222,null,10000,3,'DBA');
+
+INSERT INTO CUSTOMER VALUES (12,'robert','brown','1970-04-04','900,Nile Road,M74QN',233222,'M');
+INSERT INTO CUSTOMER VALUES (13,'navathe','fahid','1977-02-03','901,Jane Road,M64NN',333282,'M');
+INSERT INTO CUSTOMER VALUES (14,'conolly','hudson','1960-02-01','944,Lincoln Road,M54QN',942222,'F');
+INSERT INTO CUSTOMER VALUES (15,'bay','pendleton','1979-01-01','945,Jug Road,M64QN',944422,'F');
+INSERT INTO CUSTOMER VALUES (16,'tim','gauge','1985-01-01','545,Gerry Road,M64AN',549222,'M');
+
+INSERT INTO DEPARTMENT VALUES (1,'Research');
+INSERT INTO DEPARTMENT VALUES (2,'Sales');
+INSERT INTO DEPARTMENT VALUES (3,'Software');
+
+INSERT INTO ENVIRONMENT_3D VALUES ('Board','office room') ;
+INSERT INTO ENVIRONMENT_3D VALUES ('Therapy','therapy room') ;
+INSERT INTO ENVIRONMENT_3D VALUES ('Mars','typical planet settings') ;
+INSERT INTO ENVIRONMENT_3D VALUES ('Beach','beach setting') ;
+INSERT INTO ENVIRONMENT_3D VALUES ('Space','hovering in space') ;
+
+
+INSERT INTO LOGIN VALUES ('john_taylor@gmail.com',md5('a'),1);
+INSERT INTO LOGIN VALUES ('robin_hood@gmail.com',md5('b'),2);
+INSERT INTO LOGIN VALUES ('mike_mint@gmail.com',md5('c'),3);
+INSERT INTO LOGIN VALUES ('bill_taylor@gmail.com',md5('d'),4);
+INSERT INTO LOGIN VALUES ('tom_timber@gmail.com',md5('e'),5);
+
+INSERT INTO LOGIN VALUES ('robert_brown@gmail.com',md5('z'),12);
+INSERT INTO LOGIN VALUES ('navathe_fahid@gmail.com',md5('y'),13);
+INSERT INTO LOGIN VALUES ('conolly_hudson@gmail.com',md5('x'),14);
+INSERT INTO LOGIN VALUES ('bay_pendleton@gmail.com',md5('w'),15);
+INSERT INTO LOGIN VALUES ('tim_gauge@gmail.com',md5('v'),16);
+
+
+#########################################################################################################
+
+-- ## {Selection statements(DML)} ## --
+select * from EMPLOYEE ; 
+select * from CUSTOMER  ;
+select * from INVOICE ;
+select * from LOGIN ;
+select * from ENV_SESSION ;
+select * from ENVIRONMENT_3D;
+
+SET SQL_SAFE_UPDATES = 0;
+
+#SHOW PROCESSLIST;
+## DDL
+#ALTER TABLE ENV_SESSION 
+#ADD COLUMN  bill_month INT DEFAULT 0;
+#########################################################################################################
+
+-- ## {Defining STORED PROCEDURES} ## --
+
+-- ## 1. START_SESSION  ## --
+-- ~~ This procedure starts sessions for customers and records the information in ENV_SESSION table ~~ --
+DROP PROCEDURE IF EXISTS START_SESSION ;
+delimiter //
+CREATE PROCEDURE START_SESSION(IN param1 int,IN param2 varchar(40),IN param3 int)
+BEGIN
+INSERT INTO ENV_SESSION(session_id,start_time,user_id,env)
+values(param3,now(),param1,param2);
+END //
+delimiter ;
+
+#DESCRIBE ENV_SESSION;
+#CALL START_SESSION(12,'Mars',4);
+#CALL START_SESSION(13,'Mars',4);
+#select * from ENV_SESSION ;
+
+#DELETE FROM ENV_SESSION WHERE session_id = 4 ;
+#########################################################################################################
+
+-- ## 2. END_SESSION  ## --
+-- ~~ This procedure ends sessions for customers and records the information in ENV_SESSION table ~~ --
+
+DROP PROCEDURE IF EXISTS END_SESSION;
+delimiter //
+CREATE PROCEDURE END_SESSION(IN param1 int)
+BEGIN
+UPDATE ENV_SESSION
+SET end_time = now() ,duration_in_minutes = TIMESTAMPDIFF(MINUTE,start_time,end_time)
+WHERE session_id = param1 AND (end_time IS NULL OR end_time = 0) ;
+END //
+delimiter ;
+
+#CALL END_SESSION(4);
+#SELECT * FROM ENV_SESSION;
+#########################################################################################################
+
+-- ## 3. ADD_USER_TO_SESSION  ## --
+-- ~~ This procedure adds users to current sessions for customers and records the information in ENV_SESSION table ~~ --
+
+DROP PROCEDURE IF EXISTS ADD_USER_TO_SESSION ;
+delimiter //
+CREATE PROCEDURE ADD_USER_TO_SESSION(IN param1 int,IN param2 int)
+BEGIN
+DECLARE param3 varchar(40) ;
+DECLARE param4 int DEFAULT 0;
+select distinct env into param3 from ENV_SESSION where session_id = param2 ;
+INSERT INTO ENV_SESSION(session_id,start_time,end_time,user_id,env)
+values(param2,now(),param4,param1,param3);
+END //
+delimiter ;
+
+#CALL ADD_USER_TO_SESSION(12,4);
+#CALL ADD_USER_TO_SESSION(13,4);
+#CALL ADD_USER_TO_SESSION(14,4);
+#select * from ENV_SESSION ;
+
+#UPDATE ENV_SESSION set end_time = 0 where session_id = 4 ;
+#DELETE FROM ENV_SESSION WHERE user_id = 14 ;
+#########################################################################################################
+
+-- ## 4. DROP_USERS_FROM_SESSION  ## --
+-- ~~ This procedure removes users from current sessions for customers and records the information in ENV_SESSION table ~~ --
+
+DROP PROCEDURE IF EXISTS DROP_USERS_FROM_SESSION;
+delimiter //
+CREATE PROCEDURE DROP_USERS_FROM_SESSION(IN param1 int,IN param2 int)
+BEGIN
+#DELETE FROM ENV_SESSION WHERE  user_id = param1 AND session_id = param2 ;
+UPDATE ENV_SESSION SET end_time = now() , duration_in_minutes = TIMESTAMPDIFF(MINUTE,start_time,end_time)
+WHERE session_id = param2 AND user_id = param1 ;
+END //
+delimiter ;
+
+#CALL DROP_USERS_FROM_SESSION(14,4);
+#SELECT * FROM ENV_SESSION;
+
+#########################################################################################################
+
+-- ## {Defining FUNCTIONS} ## --
+
+-- ## 1. Monthly_call_minutes  ## --
+-- ~~ This function calculates the monthly call duration in minutes from the ENV_SESSION table and
+--    returns the this value back to the calling function ~~ --
+
+DROP FUNCTION IF EXISTS Monthly_call_minutes;
+delimiter //
+CREATE FUNCTION Monthly_call_minutes(id int,month int)
+RETURNS INT
+NOT DETERMINISTIC
+BEGIN
+DECLARE call_duration INT DEFAULT 0 ;
+SELECT sum(duration_in_minutes) INTO call_duration FROM ENV_SESSION
+WHERE MONTH(start_time) = month AND user_id = id;
+RETURN call_duration;
+END //
+delimiter ;
+
+#########################################################################################################
+
+-- ## 2. Monthly_bill  ## --
+-- ~~ This function calculates the monthly bill based on customer id and month from the ENV_SESSION table
+--    and returns the this value back to the calling function ~~ --
+
+DROP FUNCTION IF EXISTS Monthly_bill;
+delimiter //
+CREATE FUNCTION Monthly_bill(id int)
+RETURNS DECIMAL(10,2)
+NOT DETERMINISTIC
+BEGIN
+DECLARE bill decimal(10,2) DEFAULT 0.00;
+DECLARE duration INT DEFAULT 0 ;
+SELECT sum(duration_in_minutes) INTO duration FROM ENV_SESSION WHERE user_id = id AND MONTH(start_time)=MONTH(now());
+IF duration < 30 THEN
+SET bill = duration * 2 ;
+ELSE IF 
+duration > 30 THEN
+SET bill = duration * 4 ;
+END IF;  
+END IF ;
+RETURN bill;
+END //
+delimiter ;
+
+#SELECT distinct user_id , Monthly_bill(12) FROM ENV_SESSION where user_id = 12;
+#########################################################################################################
+#SELECT * FROM INVOICE ;
+#describe INVOICE;
+#DELETE FROM INVOICE;
+#SET SQL_SAFE_UPDATES = 0 ;
+#########################################################################################################
+
+-- ## {Defining TEMPORAL TRIGGERS(EVENTS)} ## --
+
+-- ## { 1. Monthly_Bill_Event : 
+--         This is an Event(Temporal Trigger) that fires every month and calculates the monthly bill 
+--         for customer sessions and then populates the INVOICE Table with the values } ## --
+
+SET GLOBAL event_scheduler = ON;
+SET SQL_SAFE_UPDATES = 0 ;
+SHOW PROCESSLIST;
+
+DROP EVENT IF EXISTS Monthly_Bill_Event;
+delimiter //
+CREATE EVENT Monthly_Bill_Event
+#ON SCHEDULE AT '2016-05-05 15:18:00'
+ON SCHEDULE EVERY 1 MONTH STARTS '2016-05-05 15:46:00'
+#ON COMPLETION PRESERVE
+DO BEGIN
+DECLARE done INT DEFAULT 0 ;
+DECLARE curr_user INT DEFAULT 0 ;
+DECLARE user_cursor CURSOR FOR SELECT DISTINCT user_id FROM ENV_SESSION WHERE MONTH(start_time) = MONTH(now()); 
+DECLARE CONTINUE handler for not found set done = 1;
+OPEN user_cursor;
+REPEAT 
+FETCH user_cursor INTO curr_user ;
+INSERT INTO INVOICE(cust_id,bill_month,bill_amount,call_duration,bill_date)
+VALUES(curr_user , MONTHNAME(now()) ,Monthly_bill(curr_user),Monthly_call_minutes(curr_user,MONTH(now())) ,now());
+UNTIL DONE
+END REPEAT;
+CLOSE user_cursor;
+END // 
+delimiter ;
+
+#########################################################################################################
+
+-- ## {@@@ SQL STATEMENTS @@@} ## --
+
+####~~~~~~~~~~1. Inserting,Editing and Removing users ~~~~~~~~~~######
+
+##1.1 For normal customer/employee additions/update/deletion  : 
+ 
+## Sample insertions
+INSERT INTO EMPLOYEE VALUES (5,'nancy','brook','1995-01-01','F','846,West Road,M64AN',544222,5,5000,3,'Analyst');
+INSERT INTO CUSTOMER VALUES (15,'steve','brown','1970-06-04','901,Nile Road,M74QN',233332,'M');
+##Sample Updation
+UPDATE CUSTOMER SET telno=333333 WHERE id =15;
+##Sample Deletion
+DELETE FROM CUSTOMER WHERE id=15;
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+###1.2 Creating Privileges and Access Rights to the Database and Tables to Employees/Customers: 
+#Employee Samples : DBA,Clerk,Programmer 
+CREATE USER 'tom'@'localhost' IDENTIFIED BY 'e';
+CREATE USER 'bill'@'localhost' IDENTIFIED BY 'd';
+CREATE USER 'robin'@'localhost' IDENTIFIED BY 'b';
+#Delete User
+-- DROP USER 'tom'@'localhost' ;
+#Show rights -- 
+SHOW GRANTS FOR 'bill'@'localhost' ;
+SHOW TABLES ; 
+#Grant Permissions
+GRANT ALL ON mishra_database.* TO
+'tom'@'localhost' WITH GRANT OPTION;
+GRANT SELECT ON mishra_database.CUSTOMER TO  'bill'@'localhost', 'robin'@'localhost'; 
+GRANT SELECT,UPDATE,DELETE ON mishra_database.ENVIROMENT_3D TO 'robin'@'localhost';
+GRANT SELECT,INSERT,UPDATE,DELETE ON mishra_database.ENV_SESSION TO 'robin'@'localhost';
+#FLUSH PERMISSIONS;
+##Creating View for the Sales Employee with a subset of Employee attributes
+CREATE VIEW EMPLOYEE_VIEW AS SELECT id,fname,lname,dno,role FROM EMPLOYEE ;
+GRANT SELECT ON mishra_database.EMPLOYEE_VIEW TO 'bill'@'localhost';
+#~~~~~~~
+##Customer Samples and Select Grants to bill table(INVOICE) : 
+CREATE USER 'robert'@'localhost' IDENTIFIED BY 'z';
+CREATE USER 'navathe'@'localhost' IDENTIFIED BY 'y';
+GRANT SELECT ON mishra_database.INVOICE TO  'robert'@'localhost', 'navathe'@'localhost';
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+#1.3 Sample Concurrency QUERY for Employees : 
+select * from CUSTOMER where id = 12 lock in share mode  ;
+#1.4 Sample History Query for Customer bill : 
+select * from INVOICE where cust_id = 12 ;
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+####~~~~~~~~~~2. Instantiation and Termination of Sessions ~~~~~~~~~~######
+
+## START_SESSION(UserId,Environment,SessionId) - starts the session with the participant
+CALL START_SESSION(12,'Mars',4);
+CALL START_SESSION(13,'Mars',4);
+## END_SESSION(SessionId) - ends the session for all current participants
+CALL END_SESSION(4);
+SELECT * FROM ENV_SESSION;
+
+####~~~~~~~~~~3. Adding users to and removing from Sessions ~~~~~~~~~~######
+
+## ADD_USER_TO_SESSION(UserId,SessionId) - adds users to session
+CALL ADD_USER_TO_SESSION(12,4);
+CALL ADD_USER_TO_SESSION(13,4);
+CALL ADD_USER_TO_SESSION(14,4);
+## DROP_USER_FROM_SESSION(UserId,SessionId) - records timestamp and removes the user from session
+CALL DROP_USERS_FROM_SESSION(14,4);
+SELECT * FROM ENV_SESSION;
+
+####~~~~~~~~~~4. Invoice Generation ~~~~~~~~~~######
+
+-- See Event(Temporal Trigger) statements defined at lines 230 to 260 . 
+
+######################################################################################################### 
+
+
+
+
+ 
